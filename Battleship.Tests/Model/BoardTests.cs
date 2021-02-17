@@ -8,6 +8,28 @@ namespace Battleship.Tests.Model
     public class BoardTests
     {
         [Fact]
+        public void Board_IsEmpty()
+        {
+            //Given
+            var board = new Board();
+            board.Fields[0].FieldType = FieldType.Ship;
+            board.Fields[1].FieldType = FieldType.Hit;
+            board.Fields[2].FieldType = FieldType.Miss;
+
+            //When
+            var isEmptyShip = board.IsEmpty(new Coordinates(1, 1));
+            var isEmptyHit = board.IsEmpty(new Coordinates(1, 2));
+            var isEmptyMiss = board.IsEmpty(new Coordinates(1, 3));
+            var isEmptyEmpty = board.IsEmpty(new Coordinates(1, 4));
+
+            //Then
+            isEmptyShip.Should().BeFalse();
+            isEmptyHit.Should().BeFalse();
+            isEmptyMiss.Should().BeFalse();
+            isEmptyEmpty.Should().BeTrue();
+        }
+
+        [Fact]
         public void LoadShipsFromConfig_ShipsPutOnBoard()
         {
             //Given
@@ -41,6 +63,5 @@ namespace Battleship.Tests.Model
             board.Fields.First(f => f.Coordinates.Row == 10 && f.Coordinates.Column == 9)
                 .FieldType.Should().Be(FieldType.Empty);
         }
-        
     }
 }

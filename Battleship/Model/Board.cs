@@ -1,5 +1,6 @@
 namespace Battleship.Model
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Helper;
@@ -14,8 +15,7 @@ namespace Battleship.Model
                 for(int j = 1; j < 11; j++)
                 {
                     Fields.Add(new Field{
-                        Coordinates = new Coordinates(i,j),
-                        FieldType = FieldType.Empty
+                        Coordinates = new Coordinates(i,j)
                      });
                 }
             }
@@ -23,6 +23,12 @@ namespace Battleship.Model
 
         public List<Field> Fields { get; set; }
         
+        public bool IsEmpty(Coordinates coordinates)
+        {
+            return Fields.First(f => f.Coordinates.Row == coordinates.Row 
+                && f.Coordinates.Column == coordinates.Column).FieldType == FieldType.Empty;
+        }
+
         public void LoadShipsFromConfig(string url)
         {
             try
@@ -37,13 +43,24 @@ namespace Battleship.Model
                         {
                             for(int i = (int)ship.Column; i < (int)ship.Column + ship.Lenght; i++)
                             {
-                                SetField(new Coordinates(ship.Row, i), FieldType.Ship);
+                                var coordinates = new Coordinates(ship.Row, i);
+                                // check if ships cross then throw exception
+                                if(!IsEmpty(coordinates))
+                                {
+                                    throw new ArgumentException();
+                                }
+                                SetField(coordinates, FieldType.Ship);
                             }
                         }
                         else if(ship.Orientation == Orientation.Vertical)
                         {
                             for(int i = ship.Row; i < ship.Row + ship.Lenght; i++)
                             {
+                                var coordinates = new Coordinates(i, (int)ship.Column);
+                                if(!IsEmpty(coordinates))
+                                {
+                                    throw new ArgumentException();
+                                }
                                 SetField(new Coordinates(i, (int)ship.Column), FieldType.Ship);
                             }
                         }
