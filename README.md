@@ -28,9 +28,11 @@ Go to main direcory (of cloned repo) in terminal and type
 
 ```console
 code .
+dotnet build
 ```
 
+Build unit test project before run.
 Run unit tests to validate code quality.
 In VS Code open Palette (Shift + Ctrl + P) and hit 'Run All Tests'.
-'.NET Core Test Explorer' can be helpfull to visualize the test results.
+'.NET Core Test Explorer' extension can be helpfull to visualize the test results.
 

@@ -4,7 +4,7 @@ namespace Battleship.UI.Service
     
     interface ILoadService
     {
-        public BoardShipConfig LoadShip(int length);
+        public BoardShip LoadShip(int length);
         
         public Coordinates GetFireCoordinates();
     }

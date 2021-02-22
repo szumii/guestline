@@ -5,7 +5,7 @@ namespace Battleship.Model
     using System.Linq;
     using System.Text.Json.Serialization;
 
-    public class BoardShipConfig : IEquatable<BoardShipConfig>
+    public class BoardShip : IEquatable<BoardShip>
     {
         [JsonPropertyName("lenght")]
         public int Lenght { get; set; }
@@ -90,7 +90,7 @@ namespace Battleship.Model
             return fields;
         }
 
-        public bool Equals(BoardShipConfig other)
+        public bool Equals(BoardShip other)
         {
             if (Object.ReferenceEquals(other, null))
             {

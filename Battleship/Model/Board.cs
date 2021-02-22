@@ -2,7 +2,6 @@ namespace Battleship.Model
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Helper;
 
     public class Board
     {
@@ -61,7 +60,7 @@ namespace Battleship.Model
                 && f.Coordinates.Row == coordinates.Row);
         }
 
-        public void AddShip(BoardShipConfig shipConf, Ship ship)
+        public void AddShip(BoardShip shipConf, Ship ship)
         {
             if (shipConf.IsValid(this))
             {
@@ -81,21 +80,19 @@ namespace Battleship.Model
             field.Ship = ship;
         }
 
-        public List<Ship> LoadShipsFromConfig(string url)
+        public List<Ship> LoadShips(List<BoardShip> boardShips)
         {
-            var boardShipsFromConfig = JsonHelper.LoadShips(url);
             var ships = new List<Ship>();
-
             try
             {
-                foreach (var shipConf in boardShipsFromConfig)
+                foreach (var boardShip in boardShips)
                 {
                     var ship = new Ship
                     {
-                        Lenght = shipConf.Lenght
+                        Lenght = boardShip.Lenght
                     };
                     ships.Add(ship);
-                    AddShip(shipConf, ship);
+                    AddShip(boardShip, ship);
                 }
                 return ships;
             }

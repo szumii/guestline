@@ -18,15 +18,15 @@ namespace Battleship.Model
 
         public List<Ship> Ships { get; set; }
 
-        public bool TryAddShip(BoardShipConfig boardShipConfig)
+        public bool TryAddShip(BoardShip boardShip)
         {
-            if (boardShipConfig.IsValid(MyBoard))
+            if (boardShip.IsValid(MyBoard))
             {
                 var ship = new Ship()
                 {
-                    Lenght = boardShipConfig.Lenght
+                    Lenght = boardShip.Lenght
                 };
-                MyBoard.AddShip(boardShipConfig, ship);
+                MyBoard.AddShip(boardShip, ship);
                 Ships.Add(ship);
                 return true;
             }

@@ -1,12 +1,44 @@
 namespace Battleship.Service
 {
     using System;
+    using System.Collections.Generic;
     using System.Security.Cryptography;
     using Model;
 
     public class AIPlayerService : IAIPlayerService
     {
         private ShipUnderAttack shipUnderAttack;
+
+        public List<BoardShip> PlaceShips(Board board)
+        {
+            var ships = new List<BoardShip>();
+            ships.Add(PlaceShip(5, board));
+            for (var _ = 0; _ < 2; _++)
+            {
+                ships.Add(PlaceShip(4, board));
+            }
+            return ships;
+        }
+
+        private BoardShip PlaceShip(int lenght, Board board)
+        {
+            BoardShip boardShipConfig;
+            do
+            {
+                var row = RandomNumberGenerator.GetInt32(1, 11);
+                var col = RandomNumberGenerator.GetInt32(1, 11);
+                var orientation = RandomNumberGenerator.GetInt32(1, 3);
+                boardShipConfig = new BoardShip()
+                {
+                    Lenght = lenght,
+                    Column = (Column)col,
+                    Row = row,
+                    Orientation = (Orientation)orientation
+                };
+            }
+            while (!boardShipConfig.IsValid(board));
+            return boardShipConfig;
+        }
 
         public Coordinates Hit(Board board)
         {
@@ -98,11 +130,11 @@ namespace Battleship.Service
                     }
                 }
                 //hit left/upper neighbor -> update top left field of ship 
-                if(shipUnderAttack.Coordinates.Column > firePosition.Column)
+                if (shipUnderAttack.Coordinates.Column > firePosition.Column)
                 {
                     shipUnderAttack.Coordinates.Column = firePosition.Column;
                 }
-                if(shipUnderAttack.Coordinates.Row > firePosition.Row)
+                if (shipUnderAttack.Coordinates.Row > firePosition.Row)
                 {
                     shipUnderAttack.Coordinates.Row = firePosition.Row;
                 }

@@ -20,7 +20,7 @@ namespace Battleship.Tests.Model
                         int row, Orientation orientation, bool validationResult)
         {
             //Given
-            var boardShipConfig = new BoardShipConfig(){
+            var boardShipConfig = new BoardShip(){
                 Lenght = lenght,
                 Column = column,
                 Row = row,
@@ -38,7 +38,7 @@ namespace Battleship.Tests.Model
         public void BoardShipsConfig_IsValid_CheckIfShipCrossWithOther()
         {
             //Given
-            var boardShipConfig = new BoardShipConfig(){
+            var boardShipConfig = new BoardShip(){
                 Lenght = 4,
                 Column = Column.A,
                 Row = 1,
@@ -47,7 +47,7 @@ namespace Battleship.Tests.Model
             var board = new Board();
             var ship = new Ship();
             board.AddShip(boardShipConfig, ship);
-            var crossingShip = new BoardShipConfig(){
+            var crossingShip = new BoardShip(){
                 Lenght = 4,
                 Column = Column.A,
                 Row = 1,

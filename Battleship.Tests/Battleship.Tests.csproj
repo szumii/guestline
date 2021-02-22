@@ -23,10 +23,4 @@
   <ItemGroup>
     <ProjectReference Include="..\Battleship\Battleship.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="Model\BoardShipsConfig.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content> 
-  </ItemGroup>
 </Project>

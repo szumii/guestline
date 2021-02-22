@@ -5,7 +5,7 @@ namespace Battleship.UI.Service
 
     class LoadService : ILoadService
     {
-        public BoardShipConfig LoadShip(int length)
+        public BoardShip LoadShip(int length)
         {
             Console.WriteLine("Provide data for {length} fileds long ship:");
             var ship = LoadShip();
@@ -19,7 +19,7 @@ namespace Battleship.UI.Service
             return LoadCoordiantes();
         }
 
-        private BoardShipConfig LoadShip()
+        private BoardShip LoadShip()
         {
             Console.Write("Provide ship position (e.g. A1): ");
             var coordinates = LoadCoordiantes();
@@ -33,7 +33,7 @@ namespace Battleship.UI.Service
                 orientationStr = Console.ReadLine();
             }
 
-            var ship = new BoardShipConfig()
+            var ship = new BoardShip()
             {
                 Column = (Column)coordinates.Column,
                 Row = coordinates.Row,

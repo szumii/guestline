@@ -3,6 +3,7 @@ namespace Battleship.Tests.Model
     using Xunit;
     using Battleship.Model;
     using FluentAssertions;
+    using System.Collections.Generic;
 
     public class BoardTests
     {
@@ -35,7 +36,13 @@ namespace Battleship.Tests.Model
             var board = new Board();
             
             //When
-            var ships = board.LoadShipsFromConfig(".\\Model\\BoardShipsConfig.json");
+            var ship = new BoardShip(){
+                Lenght = 5,
+                Column = Column.B,
+                Row = 2,
+                Orientation = Orientation.Horizontal
+            };
+            var ships = board.LoadShips(new List<BoardShip>(){ ship });
 
             //Then
             //Check if battelship put horizontally on B2
@@ -43,25 +50,13 @@ namespace Battleship.Tests.Model
             board.GetField(new Coordinates(2, 6)).FieldType.Should().Be(FieldType.Ship);
             board.GetField(new Coordinates(2, 7)).FieldType.Should().Be(FieldType.Empty);
             ships.Should().Contain(board.GetField(new Coordinates(2, 2)).Ship);
-
-            //Check if destroyer put vertically on D5
-            board.GetField(new Coordinates(5, 4)).FieldType.Should().Be(FieldType.Ship);
-            board.GetField(new Coordinates(8, 4)).FieldType.Should().Be(FieldType.Ship);
-            board.GetField(new Coordinates(9, 4)).FieldType.Should().Be(FieldType.Empty);
-            ships.Should().Contain(board.GetField(new Coordinates(5, 4)).Ship);
-                
-            //Check if destroyer put vertically on I6
-            board.GetField(new Coordinates(6, 9)).FieldType.Should().Be(FieldType.Ship);
-            board.GetField(new Coordinates(9, 9)).FieldType.Should().Be(FieldType.Ship);
-            board.GetField(new Coordinates(10, 9)).FieldType.Should().Be(FieldType.Empty);
-            ships.Should().Contain(board.GetField(new Coordinates(6, 9)).Ship);
         }
 
         [Fact]
         public void Board_Hit()
         {
             //Given
-            var boardShipConfig = new BoardShipConfig(){
+            var boardShipConfig = new BoardShip(){
                 Lenght = 4,
                 Column = Column.A,
                 Row = 1,
