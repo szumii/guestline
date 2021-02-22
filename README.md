@@ -3,9 +3,9 @@ Written by Pawel Krajna. In case of any guestion please write on pawel.krajna at
 # guestline intervie task
 
 This repo contains 3 .NET Core projects:
-- class library (application domain)
-- xunit tests (application domain tests)
-- consol app (UI to be run)
+- Battleship: class library (application domain)
+- Battleship.Tests: xunit tests (application domain tests)
+- Battleship.UI: consol app (to be run)
 
 
 # building the application
