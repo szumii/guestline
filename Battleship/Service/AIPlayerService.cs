@@ -9,9 +9,9 @@ namespace Battleship.Service
     {
         private ShipUnderAttack shipUnderAttack;
 
-        public List<BoardShip> PlaceShips(Board board)
+        public List<Ship> PlaceShips(Board board)
         {
-            var ships = new List<BoardShip>();
+            var ships = new List<Ship>();
             ships.Add(PlaceShip(5, board));
             for (var _ = 0; _ < 2; _++)
             {
@@ -20,15 +20,15 @@ namespace Battleship.Service
             return ships;
         }
 
-        private BoardShip PlaceShip(int lenght, Board board)
+        private Ship PlaceShip(int lenght, Board board)
         {
-            BoardShip boardShipConfig;
+            Ship ship;
             do
             {
                 var row = RandomNumberGenerator.GetInt32(1, 11);
                 var col = RandomNumberGenerator.GetInt32(1, 11);
                 var orientation = RandomNumberGenerator.GetInt32(1, 3);
-                boardShipConfig = new BoardShip()
+                ship = new Ship()
                 {
                     Lenght = lenght,
                     Column = (Column)col,
@@ -36,8 +36,8 @@ namespace Battleship.Service
                     Orientation = (Orientation)orientation
                 };
             }
-            while (!boardShipConfig.IsValid(board));
-            return boardShipConfig;
+            while (!ship.IsValid(board));
+            return ship;
         }
 
         public Coordinates Hit(Board board)

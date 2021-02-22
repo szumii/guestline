@@ -16,8 +16,8 @@
                 .BuildServiceProvider();
 
             Console.WriteLine(@"Battleship game is about to start. First put your ship on the board. 
-                One battleship 5 fields long and 2 destroyers 4 fields long. For each ship provide
-                its beggining (e.g. A1) and vertical/horizontal orientation on board.");
+One battleship 5 fields long and 2 destroyers 4 fields long. For each ship provide
+its beggining (e.g. A1) and vertical/horizontal orientation on board.");
 
             var game = new GameService(
                 serviceProvider.GetService<ILoadService>(),

@@ -60,11 +60,11 @@ namespace Battleship.Model
                 && f.Coordinates.Row == coordinates.Row);
         }
 
-        public void AddShip(BoardShip shipConf, Ship ship)
+        public void AddShip(Ship ship)
         {
-            if (shipConf.IsValid(this))
+            if (ship.IsValid(this))
             {
-                var fields = shipConf.ShipToFields();
+                var fields = ship.ShipToFields();
                 foreach (var field in fields)
                 {
                     SetField(field.Coordinates, FieldType.Ship, ship);
@@ -80,21 +80,14 @@ namespace Battleship.Model
             field.Ship = ship;
         }
 
-        public List<Ship> LoadShips(List<BoardShip> boardShips)
+        public void LoadShips(List<Ship> ships)
         {
-            var ships = new List<Ship>();
             try
             {
-                foreach (var boardShip in boardShips)
+                foreach (var ship in ships)
                 {
-                    var ship = new Ship
-                    {
-                        Lenght = boardShip.Lenght
-                    };
-                    ships.Add(ship);
-                    AddShip(boardShip, ship);
+                    AddShip(ship);
                 }
-                return ships;
             }
             catch
             {

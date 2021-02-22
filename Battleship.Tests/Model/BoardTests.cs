@@ -36,37 +36,34 @@ namespace Battleship.Tests.Model
             var board = new Board();
             
             //When
-            var ship = new BoardShip(){
+            var ship = new Ship(){
                 Lenght = 5,
                 Column = Column.B,
                 Row = 2,
                 Orientation = Orientation.Horizontal
             };
-            var ships = board.LoadShips(new List<BoardShip>(){ ship });
+            board.LoadShips(new List<Ship>(){ ship });
 
             //Then
             //Check if battelship put horizontally on B2
             board.GetField(new Coordinates(2, 2)).FieldType.Should().Be(FieldType.Ship);
             board.GetField(new Coordinates(2, 6)).FieldType.Should().Be(FieldType.Ship);
             board.GetField(new Coordinates(2, 7)).FieldType.Should().Be(FieldType.Empty);
-            ships.Should().Contain(board.GetField(new Coordinates(2, 2)).Ship);
+            ship.Should().Be(board.GetField(new Coordinates(2, 2)).Ship);
         }
 
         [Fact]
         public void Board_Hit()
         {
             //Given
-            var boardShipConfig = new BoardShip(){
+            var ship = new Ship(){
                 Lenght = 4,
                 Column = Column.A,
                 Row = 1,
                 Orientation = Orientation.Vertical
             };
             var board = new Board();
-            var ship = new Ship(){
-                Lenght = 4
-            };
-            board.AddShip(boardShipConfig, ship);
+            board.AddShip(ship);
             var hitCoor = new Coordinates(1, 1);
             var missCoor = new Coordinates(1, 2);
 

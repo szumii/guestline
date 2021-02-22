@@ -7,7 +7,7 @@ namespace Battleship.Tests.Model
     public class PlayerTests
     {
         [Fact]
-        public void AllSipsHit_PlayerIsLost()
+        public void AllShipsHit_PlayerLost()
         {
             //Given
             var player = new Player();

@@ -32,8 +32,8 @@ namespace Battleship.UI.Service
             Console.WriteLine("Game started.");
 
             var opponent = new Player();
-            var boardShips = _aiPlayerService.PlaceShips(opponent.MyBoard);
-            var ships = opponent.MyBoard.LoadShips(boardShips);
+            var ships = _aiPlayerService.PlaceShips(opponent.MyBoard);
+            opponent.MyBoard.LoadShips(ships);
             opponent.Ships = ships;
 
             while (!myself.IsLost() && !opponent.IsLost())

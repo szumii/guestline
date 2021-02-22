@@ -5,7 +5,7 @@ namespace Battleship.Service
     
     public interface IAIPlayerService
     {
-        public List<BoardShip> PlaceShips(Board board);
+        public List<Ship> PlaceShips(Board board);
         public Coordinates Hit(Board board);
         public void HitWasSuccessfull(Coordinates firePosition);
         public void ShipIsSunk();
