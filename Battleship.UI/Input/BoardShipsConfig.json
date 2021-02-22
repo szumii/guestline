@@ -1,0 +1,20 @@
+[
+    {
+        "lenght": 5,
+        "column": "B",
+        "row": 2,
+        "orientation": "horizontal"
+    },
+    {
+        "lenght": 4,
+        "column": "D",
+        "row": 5,
+        "orientation": "vertical"
+    },
+    {
+        "lenght": 4,
+        "column": "I",
+        "row": 6,
+        "orientation": "vertical"
+    }
+]

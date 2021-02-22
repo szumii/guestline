@@ -10,7 +10,9 @@ namespace Battleship.Tests.Model
         public void Destroyer_HitFourTimes_IsSunk()
         {
             //Given
-            var ship = new Destroyer();
+            var ship = new Ship(){
+                Lenght = 4
+            };
 
             //When
             for(int i = 0; i < 4; i++)
@@ -19,20 +21,22 @@ namespace Battleship.Tests.Model
             }
             
             //Then
-            ship.isSunk().Should().BeTrue("Destroyer (4squers) was hit 4 times.");
+            ship.IsSunk().Should().BeTrue("Destroyer (4squers) was hit 4 times.");
         }
 
         [Fact]
         public void Destroyer_HitOnce_IsNotSunk()
         {
             //Given
-            var ship = new Destroyer();
+            var ship = new Ship(){
+                Lenght = 4
+            };
 
             //When
             ship.Hit();
 
             //Then
-            ship.isSunk().Should().BeFalse("Destroyer (4squers) was hit once.");
+            ship.IsSunk().Should().BeFalse("Destroyer (4squers) was hit once.");
         }
     }
 }

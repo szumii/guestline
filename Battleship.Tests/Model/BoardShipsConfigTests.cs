@@ -16,7 +16,7 @@ namespace Battleship.Tests.Model
         [InlineData(5, Column.None, 2, Orientation.Horizontal, false)]
         [InlineData(5, Column.G, 11, Orientation.Horizontal, false)]
         [InlineData(5, Column.G, 2, Orientation.None, false)]
-        public void ValidateBoardShipsConfiguration(int lenght, Column column, 
+        public void BoardShipsConfig_IsValid(int lenght, Column column, 
                         int row, Orientation orientation, bool validationResult)
         {
             //Given
@@ -34,5 +34,31 @@ namespace Battleship.Tests.Model
             isValid.Should().Be(validationResult);
         }
         
+        [Fact]
+        public void BoardShipsConfig_IsValid_CheckIfShipCrossWithOther()
+        {
+            //Given
+            var boardShipConfig = new BoardShipConfig(){
+                Lenght = 4,
+                Column = Column.A,
+                Row = 1,
+                Orientation = Orientation.Vertical
+            };
+            var board = new Board();
+            var ship = new Ship();
+            board.AddShip(boardShipConfig, ship);
+            var crossingShip = new BoardShipConfig(){
+                Lenght = 4,
+                Column = Column.A,
+                Row = 1,
+                Orientation = Orientation.Horizontal
+            };
+
+            //When
+            var isValid = crossingShip.IsValid(board);
+            
+            //Then
+            isValid.Should().Be(false);
+        }
     }
 }

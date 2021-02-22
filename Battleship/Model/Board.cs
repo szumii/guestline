@@ -1,6 +1,5 @@
 namespace Battleship.Model
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Helper;
@@ -10,74 +9,101 @@ namespace Battleship.Model
         public Board()
         {
             Fields = new List<Field>();
-            for(int i = 1; i < 11; i++)
+            for (int i = 1; i <= 10; i++)
             {
-                for(int j = 1; j < 11; j++)
+                for (int j = 1; j <= 10; j++)
                 {
-                    Fields.Add(new Field{
-                        Coordinates = new Coordinates(i,j)
-                     });
+                    Fields.Add(new Field
+                    {
+                        Coordinates = new Coordinates(i, j)
+                    });
                 }
             }
         }
 
         public List<Field> Fields { get; set; }
-        
+
         public bool IsEmpty(Coordinates coordinates)
         {
-            return Fields.First(f => f.Coordinates.Row == coordinates.Row 
-                && f.Coordinates.Column == coordinates.Column).FieldType == FieldType.Empty;
+            return GetField(coordinates).FieldType == FieldType.Empty;
         }
 
-        public void LoadShipsFromConfig(string url)
+        public (bool, bool) Hit(Coordinates coordinates)
         {
+            var field = GetField(coordinates);
+            if (field.FieldType == FieldType.Ship)
+            {
+                field.FieldType = FieldType.Hit;
+                field.Ship.Hit();
+                return (true, field.Ship.IsSunk());
+            }
+            else if (field.FieldType == FieldType.Empty)
+            {
+                field.FieldType = FieldType.Miss;
+                return (false, false);
+            }
+            //hit the same field once more
+            else if (field.FieldType == FieldType.Hit)
+            {
+                return (true, false);
+            }
+            return (false, false);
+        }
+
+        public void MarkField(Coordinates coordinates, FieldType fieldType)
+        {
+            GetField(coordinates).FieldType = fieldType;
+        }
+
+        public Field GetField(Coordinates coordinates)
+        {
+            return Fields.FirstOrDefault(f => f.Coordinates.Column == coordinates.Column
+                && f.Coordinates.Row == coordinates.Row);
+        }
+
+        public void AddShip(BoardShipConfig shipConf, Ship ship)
+        {
+            if (shipConf.IsValid(this))
+            {
+                var fields = shipConf.ShipToFields();
+                foreach (var field in fields)
+                {
+                    SetField(field.Coordinates, FieldType.Ship, ship);
+                }
+            }
+        }
+
+        private void SetField(Coordinates coordinates, FieldType fieldType, Ship ship)
+        {
+            var field = Fields.First(f => f.Coordinates.Row == coordinates.Row
+                                && f.Coordinates.Column == coordinates.Column);
+            field.FieldType = fieldType;
+            field.Ship = ship;
+        }
+
+        public List<Ship> LoadShipsFromConfig(string url)
+        {
+            var boardShipsFromConfig = JsonHelper.LoadShips(url);
+            var ships = new List<Ship>();
+
             try
             {
-                var boardShipsFromConfig = JsonHelper.LoadShips(url);
-
-                foreach(var ship in boardShipsFromConfig)
+                foreach (var shipConf in boardShipsFromConfig)
                 {
-                    if(ship.IsValid())
+                    var ship = new Ship
                     {
-                        if(ship.Orientation == Orientation.Horizontal)
-                        {
-                            for(int i = (int)ship.Column; i < (int)ship.Column + ship.Lenght; i++)
-                            {
-                                var coordinates = new Coordinates(ship.Row, i);
-                                // check if ships cross then throw exception
-                                if(!IsEmpty(coordinates))
-                                {
-                                    throw new ArgumentException();
-                                }
-                                SetField(coordinates, FieldType.Ship);
-                            }
-                        }
-                        else if(ship.Orientation == Orientation.Vertical)
-                        {
-                            for(int i = ship.Row; i < ship.Row + ship.Lenght; i++)
-                            {
-                                var coordinates = new Coordinates(i, (int)ship.Column);
-                                if(!IsEmpty(coordinates))
-                                {
-                                    throw new ArgumentException();
-                                }
-                                SetField(new Coordinates(i, (int)ship.Column), FieldType.Ship);
-                            }
-                        }
-                    }
+                        Lenght = shipConf.Lenght
+                    };
+                    ships.Add(ship);
+                    AddShip(shipConf, ship);
                 }
+                return ships;
             }
             catch
             {
                 //log
+                throw;
             }
-        }
-
-        private void SetField(Coordinates coordinates, FieldType fieldType)
-        {
-            var field = Fields.First(f => f.Coordinates.Row == coordinates.Row 
-                                && f.Coordinates.Column == coordinates.Column);
-            field.FieldType = fieldType;
         }
     }
 }

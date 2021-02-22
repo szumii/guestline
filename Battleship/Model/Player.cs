@@ -8,9 +8,8 @@ namespace Battleship.Model
         public Player()
         {
             Ships = new List<Ship>();
-            Ships.Add(new Battleship());
-            Ships.Add(new Destroyer());
-            Ships.Add(new Destroyer());
+            MyBoard = new Board();
+            OpponentBoard = new Board();
         }
 
         public Board MyBoard { get; set; }
@@ -18,10 +17,28 @@ namespace Battleship.Model
         public Board OpponentBoard { get; set; }
 
         public List<Ship> Ships { get; set; }
-        
+
+        public bool TryAddShip(BoardShipConfig boardShipConfig)
+        {
+            if (boardShipConfig.IsValid(MyBoard))
+            {
+                var ship = new Ship()
+                {
+                    Lenght = boardShipConfig.Lenght
+                };
+                MyBoard.AddShip(boardShipConfig, ship);
+                Ships.Add(ship);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public bool IsLost()
         {
-            return Ships.All(s => s.isSunk());
+            return Ships.All(s => s.IsSunk());
         }
     }
 }

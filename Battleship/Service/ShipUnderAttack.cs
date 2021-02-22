@@ -1,5 +1,7 @@
-namespace Battleship.Model
+namespace Battleship.Service
 {
+    using Battleship.Model;
+    
     public class ShipUnderAttack
     {
         // top, left field of the ship

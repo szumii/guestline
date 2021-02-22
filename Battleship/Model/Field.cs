@@ -4,5 +4,6 @@ namespace Battleship.Model
     {
         public Coordinates Coordinates { get; set; }
         public FieldType FieldType { get; set; }
+        public Ship Ship { get; set; }
     }
 }
